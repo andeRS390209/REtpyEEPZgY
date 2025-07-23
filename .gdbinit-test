@@ -1,0 +1,22 @@
+define post-mortem
+  add-symbol-file bin/utest/utest.uelf 0x400000
+  echo \n*** REGISTERS ***\n\n
+  info registers
+  echo \n*** BACKTRACE ***\n\n
+  backtrace full
+  echo \n*** KERNEL STRUCTURES ***\n\n
+  kproc
+  kthread *
+  klog
+end
+
+break ktest_success
+commands
+kill
+quit 0
+end
+
+# launch kernel tests and wait for ktest_main to finish
+break halt
+
+continue
